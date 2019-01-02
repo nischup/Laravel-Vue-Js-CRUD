@@ -2,4 +2,6 @@
 
 Simple project showing how Laravel works with Vue.js.
 
-One CRUD operation to manage Students - create/edit/update/delete and also delete marked selected value.
+One CRUD operation to manage Students - create/edit/update/delete.
+Pagination custom with vue js
+Delete marked selected muliple value
