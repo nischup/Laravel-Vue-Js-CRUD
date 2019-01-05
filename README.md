@@ -14,9 +14,9 @@ Delete marked selected muliple value
 <h3> How to use </h3>
 <li> Clone the repository with git clone </li> 
 <li> Copy .env.example file to .env and edit database credentials there </li>
-<li> Run composer install </li>
-<li> Run php artisan key:generate </li>
-<li> Run php artisan migrate </li>
-<li> Run npm install </li>
-<li> Run npm run dev </li>
+<li> Run <strong> composer install </strong> </li>
+<li> Run <strong> php artisan key:generate </strong> </li>
+<li> Run <strong> php artisan migrate </strong> </li>
+<li> Run <strong> npm install </strong> </li>
+<li> Run <strong> npm run dev </strong> </li>
 <li> That's it - load the homepage, use student link and use the CRUD </li>
