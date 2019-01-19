@@ -18,5 +18,6 @@ Delete marked selected muliple value
 <li> Run <strong> php artisan key:generate </strong> </li>
 <li> Run <strong> php artisan migrate </strong> </li>
 <li> Run <strong> npm install </strong> </li>
+<li> Run <strong> npm install --save toastr vue-toastr-2 </strong> </li>
 <li> Run <strong> npm run dev </strong> </li>
 <li> That's it - load the homepage, use student link and use the CRUD </li>
