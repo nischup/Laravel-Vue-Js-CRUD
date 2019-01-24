@@ -1,0 +1,80 @@
+
+01. run composer require intervention/image
+
+02. AppServiceProvider.php in boot function write the code below
+
+=========================== Start boot function ===================================
+
+        \Validator::extend('image64', function ($attribute, $value, $parameters, $validator) {
+            $type = explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
+            if (in_array($type, $parameters)) {
+                return true;
+            }
+            return false;
+        });
+
+        \Validator::replacer('image64', function($message, $attribute, $rule, $parameters) {
+            return str_replace(':values',join(",",$parameters),$message);
+        });
+
+=========================== end boot function ===================================
+
+03. in controller write the code below
+
+=================================== start the controller code for image uploading =====================
+
+        $imageData = $request->get('image');
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        \Image::make($request->get('image'))->resize(100, 100)->save(public_path('images/').$fileName);
+
+
+=================================== end the controller code for image uploading =====================
+
+04. in AddForm.vue file write the code below 
+
+================================= start the code ===========================
+		
+		-------------------- HTML input -----------------------------
+               <div class="form-group">
+                    <label for="about" class="col-sm-3 control-label"> Photo </label>
+                    <div class="col-sm-9">
+                         <img :src="form.image" class="img-responsive">
+                         <input type="file" v-on:change="onFileChange" class="form-control">
+                    </div>
+                </div>
+
+        -------------------- HTML input -----------------------------
+
+        ********************** script function *************************
+
+            onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.form.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+
+        ********************** script function *************************
+
+================================= start the code ===========================
+
+
+05. add the css code botton of the page 
+
+------------------------ css start---------------------
+
+<style scoped>
+    img{
+        max-height: 36px;
+    }
+</style>
+
+------------------------ css start---------------------

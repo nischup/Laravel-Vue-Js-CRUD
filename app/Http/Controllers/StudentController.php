@@ -10,14 +10,11 @@ use App\User;
 use App\Students;
 use Session;
 use DB;
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -44,10 +41,12 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request, [
                 'name' => 'required',
                 'email' => 'required',
                 'mobile' => 'required|numeric',
+                'image' => 'required|image64:jpeg,jpg,png'
             ], [
                 'name.required' => 'The Name field is required.',
                 'email.required' => 'The Email field is required.',
@@ -57,10 +56,15 @@ class StudentController extends Controller
         try {
             DB::beginTransaction();
 
+        $imageData = $request->get('image');
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        \Image::make($request->get('image'))->resize(100, 100)->save(public_path('images/').$fileName);
+
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'mobile' => $request->mobile,
+            'photo' => $fileName,
             'address' => $request->address,
         ];
         Students::create($data);
