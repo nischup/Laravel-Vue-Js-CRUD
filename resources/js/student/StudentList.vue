@@ -25,7 +25,8 @@
 		                    <th> # </th>
 		                    <th> Name </th>
 		                    <th> Mobile </th>
-		                    <th> Email </th>
+                            <th> Email </th>
+		                    <th> Photo </th>
 		                    <th> Address </th>
 		                    <th> Created Date </th>
 		                    <th> Action </th>
@@ -37,7 +38,10 @@
 		                		 <td>{{index+1}}</td>
 		                		 <td>{{value.name}}</td>
 		                		 <td>{{value.mobile}}</td>
-		                		 <td>{{value.email}}</td>
+                                 <td>{{value.email}}</td>
+		                		 <td>
+                                    <img :src="base_url+'images/'+value.photo" width="50px">
+                                 </td>
 		                		 <td>{{value.address}}</td>
 		                		 <td>{{value.created_at}}</td>
 		                		 <td class="text-center">
@@ -93,6 +97,7 @@
                 resultData: {},
                 deleteId: [],
                 perPage: 10,
+                base_url: base_url,
             };
         },
 
@@ -180,7 +185,8 @@
 
                     this.deleteId = selected;
                 }
-            }
+            },
+
         },
         created() {
             var _this = this;

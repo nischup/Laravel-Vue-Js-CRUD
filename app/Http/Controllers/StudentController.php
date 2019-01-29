@@ -23,22 +23,11 @@ class StudentController extends Controller
         return view('student.student');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         
@@ -103,10 +92,15 @@ class StudentController extends Controller
         try {
             DB::beginTransaction();
 
+        $imageData = $request->get('image');
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        \Image::make($request->get('image'))->resize(100, 100)->save(public_path('images/').$fileName);
+
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'mobile' => $request->mobile,
+            'photo' => $fileName,
             'address' => $request->address,
         ];
         Students::FindOrFail($id)->update($data);

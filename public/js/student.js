@@ -24924,6 +24924,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -24950,7 +24954,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_toastr_2___default.a);
 
             resultData: {},
             deleteId: [],
-            perPage: 10
+            perPage: 10,
+            base_url: base_url
         };
     },
 
@@ -25046,6 +25051,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_toastr_2___default.a);
                 this.deleteId = selected;
             }
         }
+
     },
     created: function created() {
         var _this = this;
@@ -25973,6 +25979,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -25987,10 +26004,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             add_form: false,
             edit_form: true,
             view_form: false,
+            base_url: base_url,
 
             form: {
                 name: '',
                 email: '',
+                image: '',
                 mobile: '',
                 address: ''
 
@@ -26000,6 +26019,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        onFileChange: function onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            this.createImage(files[0]);
+        },
+        createImage: function createImage(file) {
+            var reader = new FileReader();
+            var vm = this;
+            reader.onload = function (e) {
+                vm.form.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
         edit: function edit(id) {
             var _this = this;
             axios.get(base_url + 'student/' + id + '/edit').then(function (response) {
@@ -26230,6 +26262,37 @@ var render = function() {
                       ]
                     )
                   : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-3 control-label",
+                  attrs: { for: "about" }
+                },
+                [_vm._v(" image ")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-9" }, [
+                _c("img", {
+                  attrs: {
+                    src: _vm.base_url + "images/" + _vm.form.photo,
+                    width: "50px"
+                  }
+                }),
+                _vm._v(" "),
+                _c("img", {
+                  staticClass: "img-responsive",
+                  attrs: { src: _vm.form.image }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: { type: "file" },
+                  on: { change: _vm.onFileChange }
+                })
               ])
             ]),
             _vm._v(" "),
@@ -26775,6 +26838,8 @@ var render = function() {
                   _vm._v(" "),
                   _c("th", [_vm._v(" Email ")]),
                   _vm._v(" "),
+                  _c("th", [_vm._v(" Photo ")]),
+                  _vm._v(" "),
                   _c("th", [_vm._v(" Address ")]),
                   _vm._v(" "),
                   _c("th", [_vm._v(" Created Date ")]),
@@ -26837,6 +26902,15 @@ var render = function() {
                         _c("td", [_vm._v(_vm._s(value.mobile))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(value.email))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("img", {
+                            attrs: {
+                              src: _vm.base_url + "images/" + value.photo,
+                              width: "50px"
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(value.address))]),
                         _vm._v(" "),
