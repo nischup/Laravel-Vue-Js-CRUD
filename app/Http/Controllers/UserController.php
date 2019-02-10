@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests;
 use App\User;
 use Session;
+use Mail;
+
 
 class UserController extends Controller
 {
@@ -32,6 +34,16 @@ class UserController extends Controller
         ];
 
         $result = User::create($data);
+
+        Mail::send('email',
+           array(
+               'name' => $request->get('name'),
+               'email' => $request->get('email'),
+           ), function($message) use ($request)
+       {
+           $message->from($request->email);
+           $message->to('saquib.rizwan@cloudways.com', 'Admin')->subject('Cloudways Feedback');
+       });
 
         return response()->json($result, 200);
     }

@@ -9,6 +9,7 @@ Route::get('/form', function () {
 });
  
 Route::resource('users', 'UserController');
+Route::resource('email-send', 'EmailController');
 Route::resource('products', 'ProductController');
 Route::resource('student', 'StudentController');
 Route::post('student/delete_users', 'StudentController@deleteMarkData');
