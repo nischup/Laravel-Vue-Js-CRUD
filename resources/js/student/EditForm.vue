@@ -32,7 +32,7 @@
                     <label for="about" class="col-sm-3 control-label"> image </label>
                     <div class="col-sm-9">
                          <img :src="base_url+'images/'+form.photo" width="50px">
-                         <img :src="form.image" class="img-responsive">
+                         <img :src="new_image" class="img-responsive" width="50px">
                          <input type="file" v-on:change="onFileChange" class="form-control">
                     </div>
                 </div>
@@ -72,6 +72,7 @@
                 edit_form:true,
                 view_form:false,
                 base_url: base_url,
+                new_image: '',
 
                 form:{
                     name: '',
@@ -97,7 +98,7 @@
                 let reader = new FileReader();
                 let vm = this;
                 reader.onload = (e) => {
-                    vm.form.image = e.target.result;
+                    vm.new_image = e.target.result;
                 };
                 reader.readAsDataURL(file);
             },
@@ -111,6 +112,7 @@
             },
 
             update(id){
+                this.form.new_image = this.new_image;
                 axios.put(base_url+'student/'+id, this.form).then( (response) => {
                     this.showMassage(response.data);
                     EventBus.$emit('data-changed');

@@ -92,9 +92,9 @@ class StudentController extends Controller
         try {
             DB::beginTransaction();
 
-        $imageData = $request->get('image');
+        $imageData = $request->get('new_image');
         $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-        \Image::make($request->get('image'))->resize(100, 100)->save(public_path('images/').$fileName);
+        \Image::make($request->get('new_image'))->resize(100, 100)->save(public_path('images/').$fileName);
 
         $data = [
             'name' => $request->name,

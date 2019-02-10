@@ -26005,6 +26005,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             edit_form: true,
             view_form: false,
             base_url: base_url,
+            new_image: '',
 
             form: {
                 name: '',
@@ -26028,7 +26029,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var reader = new FileReader();
             var vm = this;
             reader.onload = function (e) {
-                vm.form.image = e.target.result;
+                vm.new_image = e.target.result;
             };
             reader.readAsDataURL(file);
         },
@@ -26042,6 +26043,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         update: function update(id) {
             var _this2 = this;
 
+            this.form.new_image = this.new_image;
             axios.put(base_url + 'student/' + id, this.form).then(function (response) {
                 _this2.showMassage(response.data);
                 __WEBPACK_IMPORTED_MODULE_0__vue_assets__["EventBus"].$emit('data-changed');
@@ -26285,7 +26287,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("img", {
                   staticClass: "img-responsive",
-                  attrs: { src: _vm.form.image }
+                  attrs: { src: _vm.new_image, width: "50px" }
                 }),
                 _vm._v(" "),
                 _c("input", {
