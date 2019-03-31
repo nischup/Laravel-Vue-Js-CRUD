@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests;
 use App\User;
 use App\Students;
+use App\Package;
 use Session;
 use DB;
 use Carbon\Carbon;
@@ -20,7 +21,13 @@ class StudentController extends Controller
         if ($request->ajax()) {
            return Students::orderBy('id', 'desc')->paginate($request->perPage);
         }
-        return view('student.student');
+           $package_list = Package::select('id','name')->where('status', '1')->get()->toArray();
+       
+        $data = [
+            'package_list' => $package_list,
+        ];
+
+        return view('student.student', $data);
     }
 
     public function create()
@@ -143,4 +150,9 @@ class StudentController extends Controller
             return response()->json(['status'=>'error','message'=>'Something Error Found !, Please try again']);
         }
     }
+
+    public function packageDetail(Request $request) {
+            return Package::where('id', $request->package_id)->get();
+    }
+
 }

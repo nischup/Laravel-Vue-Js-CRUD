@@ -15,6 +15,11 @@
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
         <script src="https://unpkg.com/vue-toastr-2/dist/vue-toastr-2.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/vue-toastr-2/dist/vue-toastr-2.min.css">
+
+        {{-- multiselect --}}
+        <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+
     </head>
     <body>
         <div class="container">
@@ -32,7 +37,10 @@
                 </div>
 
                 <div id="student">
-                    <student-list></student-list>
+                    <student-list
+                        :package_list="{{json_encode($package_list)}}"
+                    >
+                    </student-list>
                 </div>
 
             </div>

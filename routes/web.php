@@ -12,6 +12,7 @@ Route::resource('users', 'UserController');
 Route::resource('email-send', 'EmailController');
 Route::resource('products', 'ProductController');
 Route::resource('student', 'StudentController');
+Route::get('subscription-package/package_id', 'StudentController@packageDetail');
 Route::post('student/delete_users', 'StudentController@deleteMarkData');
 
 Auth::routes(['verify' => true]);

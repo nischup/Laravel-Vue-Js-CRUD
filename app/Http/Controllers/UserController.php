@@ -42,7 +42,7 @@ class UserController extends Controller
            ), function($message) use ($request)
        {
            $message->from($request->email);
-           $message->to('saquib.rizwan@cloudways.com', 'Admin')->subject('Cloudways Feedback');
+           $message->to('sabbir.winux@gmail.com', 'Admin')->subject('Contact Feedback');
        });
 
         return response()->json($result, 200);

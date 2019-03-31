@@ -26,8 +26,9 @@
 		                    <th> Name </th>
 		                    <th> Mobile </th>
                             <th> Email </th>
-		                    <th> Photo </th>
-		                    <th> Address </th>
+		                   <!--  <th> Photo </th> -->
+                            <th> Address </th>
+		                    <th> Status </th>
 		                    <th> Created Date </th>
 		                    <th> Action </th>
 		                </tr>
@@ -39,14 +40,19 @@
 		                		 <td>{{value.name}}</td>
 		                		 <td>{{value.mobile}}</td>
                                  <td>{{value.email}}</td>
-		                		 <td>
+		               <!--  		 <td>
                                     <img :src="base_url+'images/'+value.photo" width="50px">
+                                 </td> -->
+                                 <td>{{value.address}}</td>
+		                		 <td>
+                                    <a style="color: green;" v-if="value.status == 1"> Active </a>
+                                    <a style="color: red;" v-if="value.status == 0"> In-Active </a>
                                  </td>
-		                		 <td>{{value.address}}</td>
 		                		 <td>{{value.created_at}}</td>
 		                		 <td class="text-center">
                                         <a class="btn btn-danger btn-sm" @click="deleteData(value.id)"><i aria-hidden="true" class="fa fa-trash-o btnColor"></i>D</a>
                                         <a class="btn btn-primary btn-sm" @click="editData(value.id)"><i aria-hidden="true" class="fa fa-pencil-square-o btnColor"></i>E</a>
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" @click="openModal(value.id)" data-target="#myModal"> Get Plan </button>
                                  </td>
 		                	</tr>
 		                </tbody>
@@ -62,8 +68,64 @@
                     <pagination :resultData="resultData" @clicked="index" :mid-size="9"></pagination>
                 </div>
             </div>
+
+            <!-- Modal -->
+              <div class="modal fade" id="openModal" role="dialog">
+                <div class="modal-dialog">
+                
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="" method="post">
+                              
+                            <div class="form-group">
+                                <label> Select Package </label>
+                                <multiselect
+                                        v-model="form.package_id"
+                                        :options="package_list"
+                                        :multiple="false"
+                                        :close-on-select="true"
+                                        placeholder="Select Package Name"
+                                        label="name"
+                                        track-by="id"
+                                        @input="packageDetail"
+                                    >
+                                </multiselect>
+                            </div>
+                              
+                            <div class="form-group" v-if="price !=''">
+                                <label> Package Price ($) </label>
+                                <input type="text" class="form-control" :value="price" readonly>
+                            </div>                            
+
+                            <div class="form-group" v-if="price !=''">
+                                <label> Duration (Days) </label>
+                                <input type="text" class="form-control" :value="duration" readonly>
+                            </div>                            
+
+                            <div class="form-group">
+                                <label> Name </label>
+                                <input type="text" class="form-control" placeholder="Name" required>
+                            </div>
+        
+                            <button type="submit" class="btn btn-primary btn-block"> Purchase Subscription Plan Now </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
+                    </div>
+                  </div>
+                  
+                  </div>
+              </div>
+
 		</div>
 	</div>
+
+
 
     <AddForm  v-else-if="add_form"></AddForm>
 	<EditForm  v-else-if="edit_form" :edit-id="edit_id"></EditForm>
@@ -77,6 +139,7 @@
     import AddForm from './AddForm.vue';
     import EditForm from './EditForm.vue';
     import Pagination from  './../components/Pagination.vue';
+    import Multiselect from 'vue-multiselect'
     window.toastr = require('toastr')
      
     Vue.use(VueToastr2)
@@ -86,7 +149,9 @@
         	AddForm,
             EditForm,
             Pagination,
+            Multiselect
         },
+        props:['package_list'],
 
         data(){
             return {
@@ -98,6 +163,15 @@
                 deleteId: [],
                 perPage: 10,
                 base_url: base_url,
+
+                price:'',
+                duration:'',
+
+                form:{
+                    package_id: '',
+                    company_id: ''
+                },
+
             };
         },
 
@@ -127,6 +201,20 @@
                 $('#addBtn').hide();
                 $('#listBtn').show();
             },
+
+            openModal(data) {
+                console.log(data);
+            },
+
+            packageDetail(e){
+                var _this = this;
+                 axios.get(base_url+'subscription-package/package_id?package_id='+e.id).then( (response) => {
+                    _this.price = response.data[0]['price'];
+                    _this.duration = response.data[0]['duration'];
+                 });
+            },
+
+
 
             // ============== resource route destroy only delete one id or data start ===============
 
@@ -214,6 +302,7 @@
             });
 
              _this.index(1);
+             // console.log(_this.package_list);
         }
     }; 
 

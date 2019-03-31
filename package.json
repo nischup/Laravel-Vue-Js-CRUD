@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "toastr": "^2.1.4",
+        "vue-multiselect": "^2.1.4",
         "vue-sweetalert2": "^1.6.3",
         "vue-toastr": "^1.0.4",
         "vue-toastr-2": "0.0.10"
