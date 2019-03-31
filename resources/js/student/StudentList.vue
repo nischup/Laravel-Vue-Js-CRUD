@@ -52,7 +52,7 @@
 		                		 <td class="text-center">
                                         <a class="btn btn-danger btn-sm" @click="deleteData(value.id)"><i aria-hidden="true" class="fa fa-trash-o btnColor"></i>D</a>
                                         <a class="btn btn-primary btn-sm" @click="editData(value.id)"><i aria-hidden="true" class="fa fa-pencil-square-o btnColor"></i>E</a>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" @click="openModal(value.id)" data-target="#myModal"> Get Plan </button>
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"> Get Plan </button>
                                  </td>
 		                	</tr>
 		                </tbody>
@@ -70,7 +70,7 @@
             </div>
 
             <!-- Modal -->
-              <div class="modal fade" id="openModal" role="dialog">
+              <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
                 
                   <!-- Modal content-->
@@ -200,10 +200,6 @@
                 _this.edit_id = id;
                 $('#addBtn').hide();
                 $('#listBtn').show();
-            },
-
-            openModal(data) {
-                console.log(data);
             },
 
             packageDetail(e){

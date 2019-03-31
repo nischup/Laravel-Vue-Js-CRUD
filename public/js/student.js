@@ -25068,9 +25068,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_toastr_2___default.a);
             $('#addBtn').hide();
             $('#listBtn').show();
         },
-        openModal: function openModal(data) {
-            console.log(data);
-        },
         packageDetail: function packageDetail(e) {
             var _this = this;
             axios.get(base_url + 'subscription-package/package_id?package_id=' + e.id).then(function (response) {
@@ -27063,11 +27060,6 @@ var render = function() {
                                 type: "button",
                                 "data-toggle": "modal",
                                 "data-target": "#myModal"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.openModal(value.id)
-                                }
                               }
                             },
                             [_vm._v(" Get Plan ")]
@@ -27098,7 +27090,7 @@ var render = function() {
             "div",
             {
               staticClass: "modal fade",
-              attrs: { id: "openModal", role: "dialog" }
+              attrs: { id: "myModal", role: "dialog" }
             },
             [
               _c("div", { staticClass: "modal-dialog" }, [
