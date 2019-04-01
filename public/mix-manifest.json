@@ -1,6 +1,6 @@
 {
-    "/js/student.js": "/js/student.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/js/product.js": "/js/product.js"
+    "/js/product.js": "/js/product.js",
+    "/js/student.js": "/js/student.js"
 }
