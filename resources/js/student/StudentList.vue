@@ -79,7 +79,7 @@
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                      <form action="" method="post">
+                      <form v-on:submit.prevent="store_save_plan" class="form-horizontal" method="post">
                               
                             <div class="form-group">
                                 <label> Select Package </label>
@@ -101,7 +101,7 @@
                                 <input type="text" class="form-control" :value="price" readonly>
                             </div>                            
 
-                            <div class="form-group" v-if="price !=''">
+                            <div class="form-group" v-if="duration !=''">
                                 <label> Duration (Days) </label>
                                 <input type="text" class="form-control" :value="duration" readonly>
                             </div>                            
@@ -168,8 +168,8 @@
                 duration:'',
 
                 form:{
+                    company_id: '27',
                     package_id: '',
-                    company_id: ''
                 },
 
             };
@@ -208,6 +208,20 @@
                     _this.price = response.data[0]['price'];
                     _this.duration = response.data[0]['duration'];
                  });
+            },
+
+            store_save_plan:function() {
+                var _this = this;
+                axios.post(base_url+'student/saveplan', _this.form).then( (response) => {
+                    this.showMassage(response.data);
+                    EventBus.$emit('data-changed');
+                }).catch(error => {
+                    if(error.response.status == 422){
+                        this.errors = error.response.data.errors;
+                    }else{
+                        this.showMassage(error);
+                    }
+                });
             },
 
 

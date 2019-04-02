@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\User;
 use App\Students;
 use App\Package;
+use App\PackagePurchaseCompnay;
 use Session;
 use DB;
 use Carbon\Carbon;
@@ -67,6 +68,29 @@ class StudentController extends Controller
 
         DB::commit();
             return response()->json(['status' => 'success', 'message' => 'Save student info']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['status' => 'error', 'message' => 'Something Error Found !, Please try again']);
+        }
+
+    }    
+
+    public function saveplan(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+        $data = [
+            'company_id' => $request->company_id,
+            'package_id' => $request->package_id['id'],
+            'purchase_date' => Carbon::now(),
+            'status' => '1',
+        ];
+        PackagePurchaseCompnay::create($data);
+        Students::where('id', $request->company_id)->update(['status' => '1']);
+
+        DB::commit();
+            return response()->json(['status' => 'success', 'message' => 'Save']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status' => 'error', 'message' => 'Something Error Found !, Please try again']);

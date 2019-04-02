@@ -11,6 +11,7 @@ Route::get('/form', function () {
 Route::resource('users', 'UserController');
 Route::resource('email-send', 'EmailController');
 Route::resource('products', 'ProductController');
+Route::post('student/saveplan', 'StudentController@saveplan');
 Route::resource('student', 'StudentController');
 Route::get('subscription-package/package_id', 'StudentController@packageDetail');
 Route::post('student/delete_users', 'StudentController@deleteMarkData');
